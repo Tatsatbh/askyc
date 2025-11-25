@@ -15,7 +15,7 @@ import os
 
 
 load_dotenv()
-openai_client = OpenAI(os.getenv('OPENAI_API_KEY'))
+openai_client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 supabase = create_client(os.getenv('SUPABASE_URL'), os.getenv('SUPABASE_KEY'))
 langfuse = Langfuse(
     public_key=os.getenv('LANGFUSE_PUBLIC_KEY'),
@@ -30,8 +30,7 @@ class State(TypedDict):
     messages: Annotated[list, add_messages]
 graph_builder = StateGraph(State)
 
-llm = init_chat_model('gpt-5.1', streaming=True,
-                     api_key=os.getenv('OPENAI_API_KEY'))
+llm = init_chat_model('gpt-4o', streaming=True, api_key=os.getenv('OPENAI_API_KEY'))
 
 @tool("fetch_yc_chunks")
 def fetch_yc_chunks_tool(query: str, match_count: int = 10) -> str:
